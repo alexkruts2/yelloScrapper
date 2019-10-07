@@ -26,7 +26,7 @@ class ArticleController extends BaseController
         $yelloScrapper = new YelloScrapper();
         $html = $yelloScrapper->getHtmlContent("electricians-electrical-contractors","3936");
         $dom = new Dom;
-        $dom->load($html);
+        $dom->load($html['body']);
 
         $items = $dom->find('.search-in-area')[0]->find('.search-results')[0]->find('.find-show-more-trial');
         $resultsInArea = $this->getAreaItems($items);
@@ -40,7 +40,7 @@ class ArticleController extends BaseController
             foreach($pageLinks as $pageLink){
                 $url = $this->baseUrl.$pageLink->getAttribute('href');
                 $html = $yelloScrapper->getHtmlContentFromUrl($url);
-                $dom->load($html);
+                $dom->load($html['body']);
                 $temp = $this->getAreaItems($items);
                 array_push($resultsInArea,$temp);
             }
