@@ -1051,14 +1051,13 @@ trait Date
     {
         if ($this->isImmutable()) {
             throw new \RuntimeException(sprintf(
-                '%s class is immutable.',
-                static::class
+                '%s class is immutable.', static::class
             ));
         }
 
         if (is_array($name)) {
-            foreach ($name as $key => $value) {
-                $this->set($key, $value);
+            foreach ($name as $_name => $value) {
+                $this->set($_name, $value);
             }
 
             return $this;
@@ -1074,19 +1073,15 @@ trait Date
                 if (substr($name, 0, 5) === 'milli') {
                     $value *= 1000;
                 }
-
                 while ($value < 0) {
                     $this->subSecond();
                     $value += static::MICROSECONDS_PER_SECOND;
                 }
-
                 while ($value >= static::MICROSECONDS_PER_SECOND) {
                     $this->addSecond();
                     $value -= static::MICROSECONDS_PER_SECOND;
                 }
-
                 $this->modify($this->rawFormat('H:i:s.').str_pad((string) round($value), 6, '0', STR_PAD_LEFT));
-
                 break;
 
             case 'year':
@@ -1098,56 +1093,42 @@ trait Date
                 [$year, $month, $day, $hour, $minute, $second] = explode('-', $this->rawFormat('Y-n-j-G-i-s'));
                 $$name = $value;
                 $this->setDateTime($year, $month, $day, $hour, $minute, $second);
-
                 break;
 
             case 'week':
-                $this->week($value);
-
-                break;
+                return $this->week($value);
 
             case 'isoWeek':
-                $this->isoWeek($value);
-
-                break;
+                return $this->isoWeek($value);
 
             case 'weekYear':
-                $this->weekYear($value);
-
-                break;
+                return $this->weekYear($value);
 
             case 'isoWeekYear':
-                $this->isoWeekYear($value);
-
-                break;
+                return $this->isoWeekYear($value);
 
             case 'dayOfYear':
                 return $this->addDays($value - $this->dayOfYear);
 
             case 'timestamp':
                 parent::setTimestamp((int) $value);
-
                 break;
 
             case 'offset':
                 $this->setTimezone(static::safeCreateDateTimeZone($value / static::SECONDS_PER_MINUTE / static::MINUTES_PER_HOUR));
-
                 break;
 
             case 'offsetMinutes':
                 $this->setTimezone(static::safeCreateDateTimeZone($value / static::MINUTES_PER_HOUR));
-
                 break;
 
             case 'offsetHours':
                 $this->setTimezone(static::safeCreateDateTimeZone($value));
-
                 break;
 
             case 'timezone':
             case 'tz':
                 $this->setTimezone($value);
-
                 break;
 
             default:
@@ -2262,9 +2243,7 @@ trait Date
             }
             if (static::isStrictModeEnabled()) {
                 throw new BadMethodCallException(sprintf(
-                    'Method %s::%s does not exist.',
-                    static::class,
-                    $method
+                    'Method %s::%s does not exist.', static::class, $method
                 ));
             }
 

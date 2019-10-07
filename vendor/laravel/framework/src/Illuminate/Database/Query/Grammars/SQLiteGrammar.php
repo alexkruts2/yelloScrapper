@@ -227,7 +227,9 @@ class SQLiteGrammar extends Grammar
     public function compileDelete(Builder $query)
     {
         if (isset($query->joins) || isset($query->limit)) {
-            return $this->compileDeleteWithJoinsOrLimit($query);
+            $selectSql = parent::compileSelect($query->select("{$query->from}.rowid"));
+
+            return "delete from {$this->wrapTable($query->from)} where {$this->wrap('rowid')} in ({$selectSql})";
         }
 
         $wheres = is_array($query->wheres) ? $this->compileWheres($query) : '';
@@ -236,20 +238,18 @@ class SQLiteGrammar extends Grammar
     }
 
     /**
-     * Compile a delete statement with joins or limit into SQL.
+     * Prepare the bindings for a delete statement.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @return string
+     * @param  array  $bindings
+     * @return array
      */
-    protected function compileDeleteWithJoinsOrLimit(Builder $query)
+    public function prepareBindingsForDelete(array $bindings)
     {
-        $segments = preg_split('/\s+as\s+/i', $query->from);
+        $cleanBindings = Arr::except($bindings, ['select', 'join']);
 
-        $alias = $segments[1] ?? $segments[0];
-
-        $selectSql = parent::compileSelect($query->select($alias.'.rowid'));
-
-        return "delete from {$this->wrapTable($query->from)} where {$this->wrap('rowid')} in ({$selectSql})";
+        return array_values(
+            array_merge($bindings['join'], Arr::flatten($cleanBindings))
+        );
     }
 
     /**
