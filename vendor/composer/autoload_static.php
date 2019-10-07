@@ -157,6 +157,7 @@ class ComposerStaticInit1bb05a53d996688884131dd44ef5100b
             'Prophecy\\' => 9,
             'PhpParser\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
+            'PHPHtmlParser\\' => 14,
         ),
         'O' => 
         array (
@@ -241,6 +242,7 @@ class ComposerStaticInit1bb05a53d996688884131dd44ef5100b
         'A' => 
         array (
             'App\\' => 4,
+            'Ammadeuss\\LaravelHtmlDomParser\\' => 31,
         ),
     );
 
@@ -435,6 +437,10 @@ class ComposerStaticInit1bb05a53d996688884131dd44ef5100b
         array (
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
+        'PHPHtmlParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser',
+        ),
         'Overtrue\\Socialite\\' => 
         array (
             0 => __DIR__ . '/..' . '/overtrue/socialite/src',
@@ -615,9 +621,27 @@ class ComposerStaticInit1bb05a53d996688884131dd44ef5100b
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Ammadeuss\\LaravelHtmlDomParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ammadeuss/laravel-html-dom-parser',
+        ),
     );
 
     public static $prefixesPsr0 = array (
+        's' => 
+        array (
+            'stringEncode' => 
+            array (
+                0 => __DIR__ . '/..' . '/paquettg/string-encode/src',
+            ),
+        ),
+        'S' => 
+        array (
+            'Sunra\\PhpSimple\\HtmlDomParser' => 
+            array (
+                0 => __DIR__ . '/..' . '/sunra/php-simple-html-dom-parser/Src',
+            ),
+        ),
         'Q' => 
         array (
             'Qcloud\\Cos\\' => 
@@ -668,7 +692,8 @@ class ComposerStaticInit1bb05a53d996688884131dd44ef5100b
     );
 
     public static $classMap = array (
-        'App\\Api\\V1\\Controllers\\ArticleController' => __DIR__ . '/../..' . '/app/Api/V1/Controllers/ArticleController.php',
+        'Ammadeuss\\LaravelHtmlDomParser\\Facade' => __DIR__ . '/..' . '/ammadeuss/laravel-html-dom-parser/Facade.php',
+        'Ammadeuss\\LaravelHtmlDomParser\\ServiceProvider' => __DIR__ . '/..' . '/ammadeuss/laravel-html-dom-parser/ServiceProvider.php',
         'App\\Api\\V1\\Controllers\\BaseController' => __DIR__ . '/../..' . '/app/Api/V1/Controllers/BaseController.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -4159,6 +4184,32 @@ class ComposerStaticInit1bb05a53d996688884131dd44ef5100b
         'Overtrue\\Socialite\\User' => __DIR__ . '/..' . '/overtrue/socialite/src/User.php',
         'Overtrue\\Socialite\\UserInterface' => __DIR__ . '/..' . '/overtrue/socialite/src/UserInterface.php',
         'Overtrue\\Socialite\\WeChatComponentInterface' => __DIR__ . '/..' . '/overtrue/socialite/src/WeChatComponentInterface.php',
+        'PHPHtmlParser\\Content' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Content.php',
+        'PHPHtmlParser\\Curl' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Curl.php',
+        'PHPHtmlParser\\CurlInterface' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/CurlInterface.php',
+        'PHPHtmlParser\\Dom' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom.php',
+        'PHPHtmlParser\\Dom\\AbstractNode' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom/AbstractNode.php',
+        'PHPHtmlParser\\Dom\\ArrayNode' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom/ArrayNode.php',
+        'PHPHtmlParser\\Dom\\Collection' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom/Collection.php',
+        'PHPHtmlParser\\Dom\\HtmlNode' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom/HtmlNode.php',
+        'PHPHtmlParser\\Dom\\InnerNode' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom/InnerNode.php',
+        'PHPHtmlParser\\Dom\\LeafNode' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom/LeafNode.php',
+        'PHPHtmlParser\\Dom\\Tag' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom/Tag.php',
+        'PHPHtmlParser\\Dom\\TextNode' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Dom/TextNode.php',
+        'PHPHtmlParser\\Exceptions\\ChildNotFoundException' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Exceptions/ChildNotFoundException.php',
+        'PHPHtmlParser\\Exceptions\\CircularException' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Exceptions/CircularException.php',
+        'PHPHtmlParser\\Exceptions\\CurlException' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Exceptions/CurlException.php',
+        'PHPHtmlParser\\Exceptions\\EmptyCollectionException' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Exceptions/EmptyCollectionException.php',
+        'PHPHtmlParser\\Exceptions\\NotLoadedException' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Exceptions/NotLoadedException.php',
+        'PHPHtmlParser\\Exceptions\\ParentNotFoundException' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Exceptions/ParentNotFoundException.php',
+        'PHPHtmlParser\\Exceptions\\StrictException' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Exceptions/StrictException.php',
+        'PHPHtmlParser\\Exceptions\\UnknownChildTypeException' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Exceptions/UnknownChildTypeException.php',
+        'PHPHtmlParser\\Finder' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Finder.php',
+        'PHPHtmlParser\\Options' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Options.php',
+        'PHPHtmlParser\\Selector\\Parser' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Selector/Parser.php',
+        'PHPHtmlParser\\Selector\\ParserInterface' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Selector/ParserInterface.php',
+        'PHPHtmlParser\\Selector\\Selector' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/Selector/Selector.php',
+        'PHPHtmlParser\\StaticDom' => __DIR__ . '/..' . '/paquettg/php-html-parser/src/PHPHtmlParser/StaticDom.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',
@@ -5530,6 +5581,7 @@ class ComposerStaticInit1bb05a53d996688884131dd44ef5100b
         'Shenjian\\Result\\GetWebhookResult' => __DIR__ . '/..' . '/shenjian/shenjian-sdk-php/src/Shenjian/Result/GetWebhookResult.php',
         'Shenjian\\Result\\Result' => __DIR__ . '/..' . '/shenjian/shenjian-sdk-php/src/Shenjian/Result/Result.php',
         'Shenjian\\ShenjianClient' => __DIR__ . '/..' . '/shenjian/shenjian-sdk-php/src/Shenjian/ShenjianClient.php',
+        'Sunra\\PhpSimple\\HtmlDomParser' => __DIR__ . '/..' . '/sunra/php-simple-html-dom-parser/Src/Sunra/PhpSimple/HtmlDomParser.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\DiactorosFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/DiactorosFactory.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\HttpFoundationFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/HttpFoundationFactory.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\PsrHttpFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/PsrHttpFactory.php',
@@ -6443,6 +6495,8 @@ class ComposerStaticInit1bb05a53d996688884131dd44ef5100b
         'phpDocumentor\\Reflection\\Types\\String_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/String_.php',
         'phpDocumentor\\Reflection\\Types\\This' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/This.php',
         'phpDocumentor\\Reflection\\Types\\Void_' => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src/Types/Void_.php',
+        'stringEncode\\Encode' => __DIR__ . '/..' . '/paquettg/string-encode/src/stringEncode/Encode.php',
+        'stringEncode\\Exception' => __DIR__ . '/..' . '/paquettg/string-encode/src/stringEncode/Exception.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
