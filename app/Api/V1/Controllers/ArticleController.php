@@ -25,8 +25,7 @@ class ArticleController extends BaseController
 //        ]);
         $yelloScrapper = new YelloScrapper();
         $html = $yelloScrapper->getHtmlContent("electricians-electrical-contractors","3936");
-        $html = $this->getValuesFromHtml($html['body']);
-
+        $html = $this->getValuesFromHtml($html['body'],"<body data-logged-in=\"false\" class=\"search list-view\" id=\"search-results-page\">","</body>");
         $dom = new Dom;
         $dom->load($html);
 
@@ -39,10 +38,14 @@ class ArticleController extends BaseController
         $pageNationLinks = $dom->find('.button-pagination-container');
         if(count($pageNationLinks)>0){
             $pageLinks = $pageNationLinks[0]->find('.pagination');
+            $pages = [];
             foreach($pageLinks as $pageLink){
+                if(empty($pageLink->getAttribute('href'))) continue;
                 $url = $this->baseUrl.$pageLink->getAttribute('href');
+                if(in_array($url,$pages)) continue;
+                array_push($pages,$url);
                 $html = $yelloScrapper->getHtmlContentFromUrl($url);
-                $html = $this->getValuesFromHtml($html['body']);
+                $html = $this->getValuesFromHtml($html['body'],"<body data-logged-in=\"false\" class=\"search list-view\" id=\"search-results-page\">","</body>");
                 $dom->load($html);
                 $temp = $this->getAreaItems($items);
                 array_push($resultsInArea,$temp);
@@ -116,9 +119,9 @@ class ArticleController extends BaseController
 
     public function getValuesFromHtml($html,$start,$end){
         $startIndex = strpos($html,$start);
-        $html = substr($html,$startIndex + strlen($start));
+        $html = substr($html,$startIndex);
         $endIndex = strpos($html,$end);
-        $result = substr($html,0,$endIndex);
+        $result = substr($html,0,$endIndex + strlen($end));
         return $result;
     }
 }
