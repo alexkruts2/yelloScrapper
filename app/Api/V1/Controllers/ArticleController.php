@@ -10,23 +10,22 @@ namespace App\Api\V1\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\YelloScrapper\YelloScrapper;
+use Goutte\Client;
 
 class ArticleController extends BaseController
 {
     public function getArticles(Request $request) {
-//        validate($request->all(), [
-//            'category_id' => 'required',
-//            'page' => 'required|numeric',
-//            'pageSize' => 'numeric'
-//        ]);
-        $yelloScrapper = new YelloScrapper();
-        $html = $yelloScrapper->getHtmlContent("electricians-electrical-contractors","3936");
+        $client = new Client();
+        $crawler = $client->request('GET', 'https://www.yellowpages.com.au/find/electricians-electrical-contractors/dromana-vic-3936');
+//        $crawler = $client->request('GET', 'https://symfony.com/blog/');
+        $crawler->filter('div.search-results > div.srp-brand-bar-container-div ')->each(function ($node) {
+            print $node->text()."\n";
+            echo "<br>";
+        });
+        echo "exit";
 
 
-        return success([
-            'page' => $html['body'],
-        ]);
+
     }
 
 }
