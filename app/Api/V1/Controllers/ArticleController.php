@@ -25,8 +25,10 @@ class ArticleController extends BaseController
 //        ]);
         $yelloScrapper = new YelloScrapper();
         $html = $yelloScrapper->getHtmlContent("electricians-electrical-contractors","3936");
+        $html = $this->getValuesFromHtml($html['body']);
+
         $dom = new Dom;
-        $dom->load($html['body']);
+        $dom->load($html);
 
         $items = $dom->find('.search-in-area')[0]->find('.search-results')[0]->find('.find-show-more-trial');
         $resultsInArea = $this->getAreaItems($items);
@@ -40,7 +42,8 @@ class ArticleController extends BaseController
             foreach($pageLinks as $pageLink){
                 $url = $this->baseUrl.$pageLink->getAttribute('href');
                 $html = $yelloScrapper->getHtmlContentFromUrl($url);
-                $dom->load($html['body']);
+                $html = $this->getValuesFromHtml($html['body']);
+                $dom->load($html);
                 $temp = $this->getAreaItems($items);
                 array_push($resultsInArea,$temp);
             }
@@ -109,5 +112,13 @@ class ArticleController extends BaseController
             array_push($resultExtra,$temp);
         }
         return $resultExtra;
+    }
+
+    public function getValuesFromHtml($html,$start,$end){
+        $startIndex = strpos($html,$start);
+        $html = substr($html,$startIndex + strlen($start));
+        $endIndex = strpos($html,$end);
+        $result = substr($html,0,$endIndex);
+        return $result;
     }
 }
