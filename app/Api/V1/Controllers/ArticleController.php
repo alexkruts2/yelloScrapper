@@ -18,13 +18,14 @@ class ArticleController extends BaseController
     public $baseUrl = "https://www.yellowpages.com.au/";
 
     public function getArticles(Request $request) {
-//        validate($request->all(), [
-//            'category_id' => 'required',
-//            'page' => 'required|numeric',
-//            'pageSize' => 'numeric'
-//        ]);
+        validate($request->all(), [
+            'business_type' => 'required',
+            'location' => 'required'
+        ]);
+        $businessType = $request->get('business_type');
+        $location = $request->get('location');
         $yelloScrapper = new YelloScrapper();
-        $html = $yelloScrapper->getHtmlContent("electricians-electrical-contractors","3936");
+        $html = $yelloScrapper->getHtmlContent($businessType,$location);
         $html = $this->getValuesFromHtml($html['body'],"<body data-logged-in=\"false\" class=\"search list-view\" id=\"search-results-page\">","</body>");
         $dom = new Dom;
         $dom->load($html);
@@ -45,10 +46,12 @@ class ArticleController extends BaseController
                 if(in_array($url,$pages)) continue;
                 array_push($pages,$url);
                 $html = $yelloScrapper->getHtmlContentFromUrl($url);
-                $html = $this->getValuesFromHtml($html['body'],"<body data-logged-in=\"false\" class=\"search list-view\" id=\"search-results-page\">","</body>");
-                $dom->load($html);
+                $htmlstr = $this->getValuesFromHtml($html['body'],"<body data-logged-in=\"false\" class=\"search list-view\" id=\"search-results-page\">","</body>");
+                $dom->load($htmlstr);
+                $items = $dom->find('.search-in-area')[0]->find('.search-results')[0]->find('.find-show-more-trial');
                 $temp = $this->getAreaItems($items);
-                array_push($resultsInArea,$temp);
+
+                $resultsInArea = array_merge($resultsInArea,$temp);
             }
         }
 
