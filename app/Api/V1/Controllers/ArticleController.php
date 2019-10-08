@@ -76,12 +76,17 @@ class ArticleController extends BaseController
             $email = count($emails)>0?$emails[0]->getAttribute('data-email'):'';
             $webSites = $item->find('.contact-url');
             $website = count($webSites)>0?$webSites[0]->getAttribute('href'):'';
+            $legalIds = $item->find('.contact-legal-id');
+            $legalId = count($legalIds)>0?$legalIds[0]->innerHtml:'';
+            $legalId = str_replace('Legal ID:','',$legalId);
+
             $temp = array(
                 "businessName"=>$name,
                 "address"=>$listingHeader,
                 "mainPhone"=>$phone,
                 "email"=>$email,
-                "website"=>$website
+                "website"=>$website,
+                'legalId'=>$legalId
             );
             array_push($resultsInArea,$temp);
         }
