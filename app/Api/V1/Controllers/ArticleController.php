@@ -25,12 +25,21 @@ class ArticleController extends BaseController
         $businessType = $request->get('business_type');
         $location = $request->get('location');
         $yelloScrapper = new YelloScrapper();
-        $html = $yelloScrapper->getHtmlContent($businessType,$location);
-        $html = $this->getValuesFromHtml($html['body'],"<body data-logged-in=\"false\" class=\"search list-view\" id=\"search-results-page\">","</body>");
+        $html_org = $yelloScrapper->getHtmlContent($businessType,$location);
+        $html = $this->getValuesFromHtml($html_org['body'],"<body data-logged-in=\"false\" class=\"search list-view\" id=\"search-results-page\">","</body>");
         $dom = new Dom;
         $dom->load($html);
 
         $searchInAreaDom = $dom->find('.search-in-area')[0];
+        if(empty($searchInAreaDom)){
+            error_log('businessType='.$businessType,3,'log.txt');
+            error_log("\n",3,'log.txt');
+            error_log('location='.$location,3,'log.txt');
+            error_log("\n",3,'log.txt');
+            error_log($html_org['body'],3,'log.txt');
+            error_log("\n",3,'log.txt');
+            return "Please check your parameters again";
+        }
         $searchResultsDom = $searchInAreaDom->find('.search-results')[0];
 
         $items = $searchResultsDom->find('.find-show-more-trial');
@@ -59,7 +68,7 @@ class ArticleController extends BaseController
         }
 
         $result = array(
-          "in_area"=>$resultsInArea,
+            "in_area"=>$resultsInArea,
             "extra_area"=>$resultExtra
         );
         return $result;
