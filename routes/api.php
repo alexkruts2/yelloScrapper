@@ -20,5 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['middleware' => ['dingo']], function ($api) {
     $api->get('getArticles', ['as' => 'api.getArticles', 'uses' => ArticleController::class . '@getArticles']);
-
+    $api->get('getLicense', ['as' => 'api.getLicense', 'uses' => ArticleController::class . '@getLicense']);
 });

@@ -16,6 +16,7 @@ use PHPHtmlParser\Dom;
 class ArticleController extends BaseController
 {
     public $baseUrl = "https://www.yellowpages.com.au/";
+    public $license_base_url = "https://www.licensedtrades.com.au/license_lookup";
 
     public function getArticles(Request $request) {
         validate($request->all(), [
@@ -144,4 +145,65 @@ class ArticleController extends BaseController
         $result = substr($html,0,$endIndex + strlen($end));
         return $result;
     }
+
+
+    public function getLicense(Request $request){
+        validate($request->all(), [
+            'license_number' => 'required',
+            'authority_code' => 'required'
+        ]);
+        $license_number = $request->get('license_number');
+        $authority_code = $request->get('authority_code');
+        $url = $this->license_base_url."?licensee_business_name=&license_number=".$license_number."&search=Search&authority%5B%5D=".$authority_code;
+//        $url = "https://www.licensedtrades.com.au/license_lookup?licensee_business_name=&license_number=1070975&search=Search&authority%5B%5D=4";
+
+        $yelloScrapper = new YelloScrapper();
+        $html = $yelloScrapper->getHtmlContentFromUrl($url);
+        $variable = $yelloScrapper->getValuesFromHtml($html['body'],'google seo stuff','ref_seo_google_track');
+        $variable = $yelloScrapper->getValuesFromHtml($variable,"'","'");
+        $searchHtml = base64_decode($variable);
+        $dom = new Dom;
+        $dom->load($searchHtml);
+        $searchItems = $dom->find('.lh_18');
+//        echo count($searchItems);
+        $results = [];
+        foreach($searchItems as $item){
+            $temp = [];
+            $itemHtml = $item->innerHtml;
+            $dom->load($itemHtml);
+            $companyNameDom = $dom->find('a');
+            $companyName = $companyNameDom[0]->innerHtml;
+            $temp['company_name'] = $companyName;
+            $companyStateDom =  $dom->find('.bg_secondary');
+            $companyState = $companyStateDom[0]->innerHtml;
+            $temp['company_state'] = $companyState;
+            $locationDom = $dom->find('.mln');
+            $location = $locationDom[0]->innerHtml;
+            $temp['location'] = $location;
+            $blockDoms = $dom->find('.block');
+            foreach($blockDoms as $blockDom){
+                $each = $blockDom->innerHtml;
+                $splitStrs = explode(':',$each);
+                $key = $yelloScrapper->getValuesFromHtml($splitStrs[0],'>');
+                $value = $yelloScrapper->getValuesFromHtml($splitStrs[1],'>');
+                $temp[$key] = $value;
+            }
+            $trDoms = $dom->find('tr');
+            $licenses = [];
+            foreach($trDoms as $i=>$trDom){
+                $licenseItem = [];
+                if($i==0) continue;
+                $dom->load($trDom->innerHtml);
+                $tdDoms = $dom->find('td');
+                $licenseItem['license_class'] = $tdDoms[0]->innerHtml;
+                $licenseItem['start_date'] = $tdDoms[1]->innerHtml;
+                $licenseItem['end_date'] = $tdDoms[2]->innerHtml;
+                array_push($licenses,$licenseItem);
+            }
+            $temp['licenses'] = $licenses;
+            array_push($results,$temp);
+        }
+        return $results;
+    }
+
 }

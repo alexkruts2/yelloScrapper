@@ -48,7 +48,23 @@ class YelloScrapper
         $result = $curlRequest->exec();
         return $result;
     }
-
+    public function getValuesFromHtml($html,$start='',$end=''){
+        if(empty($start))
+            $startIndex = 0;
+        else
+            $startIndex = strpos($html,$start);
+        $html = substr($html,$startIndex + strlen($start));
+        if(empty($end))
+            $endIndex = strlen($html);
+        else
+            $endIndex = strpos($html,$end);
+        $result = substr($html,0,$endIndex);
+        $result = str_replace('<b>','',$result);
+        $result = str_replace('</b>','',$result);
+        $result = str_replace('<br/>','',$result);
+        $result = trim(preg_replace('/\s\s+/', ' ', $result));
+        return $result;
+    }
 
 
 
